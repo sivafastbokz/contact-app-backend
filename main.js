@@ -37,6 +37,12 @@ app.get('/getuserlist',async(req,res)=>{
   }
 });
 
+app.delete('/deleteuser/:id',async(req,res)=>{
+  const id =req.params.id
+  await Users.findByIdAndRemove(id).exec()
+  res.send('userdeleted')
+})
+
 app.listen(port,()=>{
     console.log('server is started on port 5000')
 })
