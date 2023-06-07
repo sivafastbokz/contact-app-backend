@@ -43,6 +43,20 @@ app.delete('/deleteuser/:id',async(req,res)=>{
   res.send('userdeleted')
 })
 
+app.put('/updateuser',async(req,res)=>{
+      const newName =req.body.newName
+      let id = req.body.id
+      try {
+        await Users.findById(id,(err,usernameupdate)=>{
+           usernameupdate.userName=newName
+           usernameupdate.save();
+        });
+      } catch (error) {
+        console.log(error)
+      }
+      res.send('username updated')
+})
+
 app.listen(port,()=>{
     console.log('server is started on port 5000')
 })
