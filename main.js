@@ -38,23 +38,22 @@ app.get('/getuserlist',async(req,res)=>{
 });
 
 app.delete('/deleteuser/:id',async(req,res)=>{
-  const id =req.params.id
+  const id = req.params.id
   await Users.findByIdAndRemove(id).exec()
   res.send('userdeleted')
 })
 
-app.put('/updateuser',async(req,res)=>{
-      const newName =req.body.newName
-      let id = req.body.id
+app.put('/update/:id',async(req,res)=>{
+
+      const newName = req.body.userName
+      const id = req.params.id
+      let query = { _id: id }
       try {
-        await Users.findById(id,(err,usernameupdate)=>{
-           usernameupdate.userName=newName
-           usernameupdate.save();
-        });
+        const subs = await Users.findOneAndUpdate(query, { userName: newName})
+        res.send('username updated')
       } catch (error) {
         console.log(error)
       }
-      res.send('username updated')
 })
 
 app.listen(port,()=>{
